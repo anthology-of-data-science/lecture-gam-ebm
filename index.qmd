@@ -1,6 +1,6 @@
 ---
-title: Put main title here
-subtitle: Sub-title goes here
+title: Generalized Additive Models and Explainable Boosting Machines
+subtitle: Your standard algorithm for tabular data?
 format: clean-revealjs
 
 html-math-method:
@@ -17,62 +17,111 @@ date: last-modified
 
 ## Attribution & copyright notice
 
+<br>
+
 ::: {style="font-size: 80%;"}
 
 This lecture is based on the following open access materials:
 
-- Voltron Data, [The Composable Codex](https://voltrondata.com/codex/a-new-frontier)
-- Cody Peterson, [Modern, hybrid, open analytics](https://anthology-of-data.science/posts/ibis-analytics/)
-- Thierry Jean, [Portable dataflows with Ibis and Hamilton](https://anthology-of-data.science/posts/hamilton-ibis/)
-- Documentation of the following Python libraries: [DuckDB](https://duckdb.org/docs/), [Ibis](https://ibis-project.org), [hamilton](https://github.com/dagworks-inc/hamilton), [polars](https://docs.pola.rs/), [Shiny for Python](https://shiny.posit.co/py/)
+- James et al., [Introduction to Statistical Learning, chapter 6](https://www.statlearning.com/)
+- Rich Caruana, [InterpretML: Explainable Boosting Machines (EBMs)](https://people.orie.cornell.edu/mru8/orie4741/lectures/Tutorial4MadeleineUdellClass_2020Dec08_RichCaruana_IntelligibleMLInterpretML_EBMs_75mins.pdf)
 
-Source code: [https://github.com/anthology-of-data-science/lecture-composable-data-stack](https://github.com/anthology-of-data-science/lecture-composable-data-stack)
+
+Source code: [https://github.com/anthology-of-data-science/lecture-gam-ebm](https://github.com/anthology-of-data-science/lecture-gam-ebm)
+<br>
+
+
 
 ```{=html}
-<p xmlns:cc="http://creativecommons.org/ns#" >Daniel Kapitan, <em>Modern, open and downward-scaleable data engineering</em>.<br>This work is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt=""></a></p>
+<p xmlns:cc="http://creativecommons.org/ns#" >Daniel Kapitan, <em>Generalized Additive Models and Explainable Boosting Machines.</em><br>This work is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt=""></a></p>
 ```
 :::
-
-## Learning objectives
+## Learning objectives: moving beyond linearity
 
 <br>
 
 :::: {.columns style="font-size: 80%;"}
+::: {.column width="45%"}
+### Generalized Additive Models
 
-::: {.column width="50%"}
-
-### Understand the problem
-
-- how data platforms evolved in the past couple of decades
-- current problems with data platforms
-- what concepts underlie the composable data stack
-- what concepts underlie modern data engineering workflows
-
+- Know how to use additive models with a single feature
+  - polynomial regression
+  - regression splines
+  - smoothing splines
+- Know how to use generalized additive models with multiple features
+  - for regression
+  - for classification
+  
 :::
 
-::: {.column width="50%"}
+::: {.column width="10%"}
+:::
 
-### Know how to
+::: {.column width="45%"}
+### Explainable Boosting Machines
 
-- Build end-to-end data pipeline using open source implementations of the composable data stack
-- Apply best practices of functional data engineering
-- Apply the split-apply-combine strategy with various syntaxes
-
+- Know how to use Explainable Boosting Machines by
+  - training smoothed splines
+  - correcting the learned splines
+  - interpreting EBMs
+- Reflect on usefulness of EBMs for high-risk applications
 :::
 ::::
 
-::: {style="font-size: 80%;"}
-### Reflect
+# Generalized Additive Models
+## Moving beyond linearity
 
-- on how this impact your (future) work as a data engineer
-- on the pro's and con's of open standards and open source
+<br>
 
-::: 
+:::: {.columns style="font-size: 80%;"}
+::: {.column width="40%"}
+
+### From linear regression
+
+$$
+y_{i} = \beta_{0} + \beta_{1} x_{i} + \epsilon_{i}
+$$
+
+<br>
+
+### From logistic regression
+
+\begin{align}
+p(x)& = \frac{e^{y_{i}}}{1 + e^{y_{i}}}\\
+\log \left( {\frac{p(x)}{1 - p(x)}} \right) & = \beta_{0} + \beta_{1} x_{i} + \epsilon_{i}
+\end{align}
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="55%"}
+### ... to polynomial regression
+
+$$
+y_{i} = \beta_{0} + \beta_{1} x_{i} + \beta_{2} x_{i}^{2} + \beta_{3} x_{i}^{3} + \ldots +\epsilon_{i}
+$$
+<br>
+
+### ... to logistic polynomial regression
+
+\begin{align}
+p(x)& = \frac{e^{y_{i}}}{1 + e^{y_{i}}}\\
+\log\left({\frac{p(x)}{1 - p(x)}}\right)& = \beta_{0} + \beta_{1} x_{i} + \beta_{2} x_{i}^{2} + \beta_{3} x_{i}^{3} + \ldots +\epsilon_{i}
+\end{align}
+:::
+::::
 
 
-# A new section
-## A new slide
-### Subtitle of new slide in new section
+## Polynomial regression
 
-- Today
-- ... is a beautiful day.
+<br>
+
+- Generalization of linear regression, use ordinary least squares for estimating coefficients
+- Unusual for d > 3 or 4, because curve becomes too flexible
+- Classification usually uses logit or log-odds formula
+
+<br>
+
+- Polynomials are an example of using basis functions
+  - Fourier basis is other commonly used basis function (sin, cos) for periodic functions
