@@ -395,12 +395,63 @@ Dr Daniel Kapitan <a href="https://orcid.org/0000-0001-8979-9194" class="quarto-
 </ul>
 </div>
 </div>
+</section>
+<section>
+<section id="generalized-additive-models-1" class="title-slide slide level1 center">
+<h1>Generalized Additive Models</h1>
+
+</section>
+<section id="moving-beyond-linearity" class="slide level2">
+<h2>Moving beyond linearity</h2>
+<p><br></p>
+<div class="columns" style="font-size: 80%;">
+<div class="column" style="width:40%;">
+<h3 id="from-linear-regression">From linear regression</h3>
+<p><span class="math display">\[
+y_{i} = \beta_{0} + \beta_{1} x_{i} + \epsilon_{i}
+\]</span></p>
+<p><br></p>
+<h3 id="from-logistic-regression">From logistic regression</h3>
+<p><span class="math display">\[\begin{align}
+p(x)&amp; = \frac{e^{y_{i}}}{1 + e^{y_{i}}}\\
+\log \left( {\frac{p(x)}{1 - p(x)}} \right) &amp; = \beta_{0} + \beta_{1} x_{i} + \epsilon_{i}
+\end{align}\]</span></p>
+</div><div class="column" style="width:5%;">
+
+</div><div class="column" style="width:55%;">
+<h3 id="to-polynomial-regression">… to polynomial regression</h3>
+<p><span class="math display">\[
+y_{i} = \beta_{0} + \beta_{1} x_{i} + \beta_{2} x_{i}^{2} + \beta_{3} x_{i}^{3} + \ldots +\epsilon_{i}
+\]</span> <br></p>
+<h3 id="to-logistic-polynomial-regression">… to logistic polynomial regression</h3>
+<p><span class="math display">\[\begin{align}
+p(x)&amp; = \frac{e^{y_{i}}}{1 + e^{y_{i}}}\\
+\log\left({\frac{p(x)}{1 - p(x)}}\right)&amp; = \beta_{0} + \beta_{1} x_{i} + \beta_{2} x_{i}^{2} + \beta_{3} x_{i}^{3} + \ldots +\epsilon_{i}
+\end{align}\]</span></p>
+</div>
+</div>
+</section>
+<section id="polynomial-regression" class="slide level2">
+<h2>Polynomial regression</h2>
+<p><br></p>
+<ul>
+<li>Generalization of linear regression, use ordinary least squares for estimating coefficients</li>
+<li>Unusual for d &gt; 3 or 4, because curve becomes too flexible</li>
+<li>Classification usually uses logit or log-odds formula</li>
+</ul>
+<p><br></p>
+<ul>
+<li>Polynomials are an example of using basis functions
+<ul>
+<li>Fourier basis is other commonly used basis function (sin, cos) for periodic functions</li>
+</ul></li>
+</ul>
 <div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 <p><a href="https://anthology-of-data.science" class="uri">https://anthology-of-data.science</a></p>
 </div>
 </div>
-</section>
+</section></section>
     </div>
   </div>
 
