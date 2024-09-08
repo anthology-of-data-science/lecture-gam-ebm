@@ -23,7 +23,7 @@ date: last-modified
 
 This lecture is based on the following open access materials:
 
-- James et al., [Introduction to Statistical Learning, chapter 6](https://www.statlearning.com/)
+- James et al., [Introduction to Statistical Learning with Python (ISLP), chapter 7](https://www.statlearning.com/)
 - Rich Caruana, [InterpretML: Explainable Boosting Machines (EBMs)](https://people.orie.cornell.edu/mru8/orie4741/lectures/Tutorial4MadeleineUdellClass_2020Dec08_RichCaruana_IntelligibleMLInterpretML_EBMs_75mins.pdf)
 
 
@@ -115,13 +115,42 @@ p(x)& = \frac{e^{y_{i}}}{1 + e^{y_{i}}}\\
 
 ## Polynomial regression
 
-<br>
-
-- Generalization of linear regression, use ordinary least squares for estimating coefficients
+### Generalization of linear regression
+- Use ordinary least squares for estimating coefficients
 - Unusual for d > 3 or 4, because curve becomes too flexible
 - Classification usually uses logit or log-odds formula
 
+
+### Concept of basis functions
+- Polynomials are an example of basis functions
+- Fourier basis is other commonly used basis function (sin, cos) for periodic functions
+
+
+## Example: `Wage` data
+
+::: {style="font-size: 60%;"}
+![Source: ISLP, figure 7.1](images/islp-7_1.png)
+:::
+
+## Regression splines
+### Not as many extra degrees of freedom as you may think
+
+:::: {.columns}
+::: {.column width="60%" style="font-size: 60%;"}
+![Source: ISLP, figure 7.3](images/islp-7_3.png)
+:::
+
+::: {.column width="40%" style="font-size: 80%;"}
+
+__Piecewise cubic__: 2 x 4 coefficients <br>
+--> 8 degrees of freedom (DoF) 
+
 <br>
 
-- Polynomials are an example of using basis functions
-  - Fourier basis is other commonly used basis function (sin, cos) for periodic functions
+__Continuous cubic (no gaps)__: one extra constraint --> 7 DoF
+
+<br>
+
+__Cubic spline__: require 1st and 2nd derivative to be continuous --> two extra constraints --> 5 DoF
+:::
+::::
