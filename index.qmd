@@ -36,6 +36,12 @@ Source code: [https://github.com/anthology-of-data-science/lecture-gam-ebm](http
 <p xmlns:cc="http://creativecommons.org/ns#" >Daniel Kapitan, <em>Generalized Additive Models and Explainable Boosting Machines.</em><br>This work is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt=""></a></p>
 ```
 :::
+## Why this lecture?
+
+::: {style="font-size: 60%;"}
+![Source: Adaptation of ISLP, figure 2.7](images/xkcd-interpretability-flexibility.png)
+:::
+
 ## Learning objectives: moving beyond linearity
 
 <br>
@@ -114,12 +120,14 @@ p(x)& = \frac{e^{y_{i}}}{1 + e^{y_{i}}}\\
 
 
 ## Polynomial regression
+<br>
 
 ### Generalization of linear regression
 - Use ordinary least squares for estimating coefficients
 - Unusual for d > 3 or 4, because curve becomes too flexible
 - Classification usually uses logit or log-odds formula
 
+<br>
 
 ### Concept of basis functions
 - Polynomials are an example of basis functions
@@ -154,3 +162,79 @@ __Continuous cubic (no gaps)__: one extra constraint --> 7 DoF
 __Cubic spline__: require 1st and 2nd derivative to be continuous --> two extra constraints --> 5 DoF
 :::
 ::::
+
+## Smoothing splines
+### Determine set of knots with regularization
+
+<br>
+
+$$
+{\color{green}\sum^{n}_{i=1} {\left(y_{i} - g(x_{i}) \right)}^{2}} + {\color{#ff4f5e} \lambda \int g''(t)^{2}dt}
+$$
+
+<br>
+
+Same principle as Lasso and Ridge regression: ${\color{green} loss} + {\color{#ff4f5e} penalty}$ 
+
+- Low $\color{#ff4f5e}\lambda$:  low penalty for 'wildly oscillating' function $g(x)$
+- High $\color{#ff4f5e}\lambda$:  high penalty forces $g(x)$ to become smoother (hence the name)
+- Selection of $\lambda$ done with cross validation (usually LOOCV)
+
+## Smooting splines
+### Example: tricep skinfold thickness as a function of age
+
+![Source: [Biostatistics Collaboration of Australia](https://bookdown.org/tpinto_home/Beyond-Linearity/smoothing-splines.html).](./images/ssplines.gif)
+
+## Generalized additve models with multiple features
+<br>
+
+### From multiple linear regression:
+
+$$
+y_{i} = \beta_{0} + \beta_{1} x_{i1} + \beta_{2} x_{i2} + \ldots + \beta_{p} x_{ip} ++ \epsilon_{i}
+$$
+<br>
+
+### ... to GAMs
+
+\begin{align}
+y_{i} &= \beta_{0} + f_{1}(x_{i1}) + f_{2}(x_{i2}) + \ldots + f_{p}(x_{ip}) + \epsilon_{i} \\
+y_{i} &= \beta_{0} + \sum^{p}_{j=1} f(x_{ij}) + \epsilon_{i}
+\end{align}
+
+- __Generalized__: for each function $f_j$ you can choose which (non-)linear basis function you want to use
+- __Additive__: we assume we can add contributions of each separate $f_j$
+
+## GAM for `Wage` data
+### Regression using natural splines
+<br>
+$wage = \beta_0 + f_1(year) + f_2(age) + f_3(education)$
+
+:::{style="font-size: 80%;"}
+$f_1$: four degrees of freedom, $f_2$: five degrees of freedom
+
+![Source: ISLP, figure 7.11.](./images/islp-7_11.png)
+:::
+
+## GAM for `Wage` data
+### Regression using smoothing splines
+<br>
+$wage = \beta_0 + f_1(year) + f_2(age) + f_3(education)$
+
+:::{style="font-size: 80%;"}
+$f_1$: four degrees of freedom, $f_2$: five degrees of freedom
+
+![Source: ISLP, figure 7.12.](./images/islp-7_12.png)
+:::
+
+
+## GAM for `Wage` data
+### Logistic regression probability to earn more 250 thousand dollars per year
+
+$\log\left({\frac{p(x)}{1 - p(x)}}\right) = \beta_0 + beta_1 \times year + f_2(age) + f_3(education)$
+
+:::{style="font-size: 80%;"}
+$f_2$: five degrees of freedom
+
+![Source: ISLP, figure 7.12.](./images/islp-7_13.png)
+:::
