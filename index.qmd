@@ -1,5 +1,5 @@
 ---
-title: From Generalized Additive Models To Explainable Boosting Machines
+title: Generalized Additive Models and Explainable Boosting Machines
 subtitle: Your standard algorithm for tabular data?
 format: clean-revealjs
 
