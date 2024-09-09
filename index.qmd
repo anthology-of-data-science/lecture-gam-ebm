@@ -364,7 +364,7 @@ ${\color{#6e008b} \sum f_{ij}(x_{i})}:$<br><br>pairwise interactions
 <br>
 
 - Work through one of the examples on [InterpreML](https://interpret.ml/docs/python/examples/interpretable-classification.html)
-- Try to reproduce the results from [Chang et al. (2020)](./resources/chang2020how.pdf) with the
+- Reproduce the results from [Chang et al. (2020)](./resources/chang2020how.pdf) with the
   - [Adult census income dataset](https://archive.ics.uci.edu/dataset/2/adult)
   - [COMPAS Recividism dataset](https://www.kaggle.com/datasets/danofer/compass)
 - Read the paper by [Nori et al. (2021)](./resources/nori21accuracy.pdf) how EBMs can be combined with differential privacy (DP) to achieve state-of-the-art accuracy whilst preserving privacy
