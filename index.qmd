@@ -238,3 +238,69 @@ $f_2$: five degrees of freedom
 
 ![Source: ISLP, figure 7.12.](./images/islp-7_13.png)
 :::
+
+## Pros and Cons of GAMS
+
+:::: {.columns style="font-size: 80%;"}
+::: {.column width="45%"}
+$\color{green}\bigtriangleup$ You can fit a non-linear $f_j$ to each $X_j$, so we can automatically model such relationships (no need for manual transformation)
+
+$\color{green}\bigtriangleup$ Using non-linear functions potentially results in more accurate predictions
+
+$\color{green}\bigtriangleup$ Because model is additive, you can examine effect of each feature $X_j$ on response $Y$ individually
+
+$\color{green}\bigtriangleup$ Smoothness of functions can be summarized via degrees of freedom
+:::
+
+::: {.column width="10%"}
+:::
+
+::: {.column width="45%"}
+
+
+$\color{orange}\bigtriangledown$ Additive model may be too restrictive, doesn't include interactions
+
+$\color{orange}\bigtriangledown$ Can be computationally expensive for many features
+:::
+::::
+
+# Explainable Boosting Machines
+## Remember how gradient boosting works?
+
+![Source: [Python Geeks](https://pythongeeks.org/gradient-boosting-algorithm-in-machine-learning/)](./images/working-of-gradient-boosting-algorithm.png)
+
+## Generalized additive models with pairwise interactions ($GA^{2}M$)
+### Microsoft Research implemented it and branded it as EBM
+
+$$
+g(E[y]) = {\color{#00458b} \sum f_i(x_{i})} + {\color{#6e008b} \sum f_{ij}(x_{ij})}
+$$
+
+:::: {.columns style="font-size: 80%;"}
+::: {.column width="30%"}
+$g(E[y]):$<br><br>link function, identity for regression, logit for logistic regression
+:::
+::: {.column width="5%"}
+:::
+::: {.column width="30%"}
+${\color{#00458b} \sum f_i(x_{i})}:$<br><br>
+GAM, but now using shallow trees as basis function
+:::
+::: {.column width="5%"}
+:::
+::: {.column width="30%"}
+${\color{#6e008b} \sum f_{ij}(x_{i})}:$<br><br>pairwise interactions
+:::
+::::
+
+:::: {style="font-size: 80%;"}
+- Combines different ideas into single model ([Lou et al. (2019)](https://www.microsoft.com/en-us/research/wp-content/uploads/2017/06/kdd13.pdf))
+  - Fast detection of pairwise interactions
+  - Uses gradient boosted trees, training one feature at a time
+  - Cycles features with each iteration to mitigate effect of co-linearity
+- Implemented in [InterpretML](https://github.com/interpretml/interpret/)
+::::
+
+## Intuition how EBM algorithm works
+
+![](./images/ebm-animated.gif)
