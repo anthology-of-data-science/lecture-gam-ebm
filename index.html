@@ -501,7 +501,7 @@ p(x)&amp; = \frac{e^{y_{i}}}{1 + e^{y_{i}}}\\
 <ul>
 <li>Low <span class="math inline">\(\color{#ff4f5e}\lambda\)</span>: low penalty for ‘wildly oscillating’ function <span class="math inline">\(g(x)\)</span></li>
 <li>High <span class="math inline">\(\color{#ff4f5e}\lambda\)</span>: high penalty forces <span class="math inline">\(g(x)\)</span> to become smoother (hence the name)</li>
-<li>Selection of <span class="math inline">\(\lambda\)</span> done with cross validation (usually LOOCV)</li>
+<li>Selection of <span class="math inline">\(\color{#ff4f5e}\lambda\)</span> done with cross validation (usually LOOCV)</li>
 </ul>
 </section>
 <section id="smooting-splines" class="slide level2">
@@ -515,7 +515,7 @@ p(x)&amp; = \frac{e^{y_{i}}}{1 + e^{y_{i}}}\\
 <h3 id="from-multiple-linear-regression">From multiple linear regression:</h3>
 <p><span class="math display">\[
 y_{i} = \beta_{0} + \beta_{1} x_{i1} + \beta_{2} x_{i2} + \ldots + \beta_{p} x_{ip} ++ \epsilon_{i}
-\]</span> <br></p>
+\]</span></p>
 <h3 id="to-gams">… to GAMs</h3>
 <p><span class="math display">\[\begin{align}
 y_{i} &amp;= \beta_{0} + f_{1}(x_{i1}) + f_{2}(x_{i2}) + \ldots + f_{p}(x_{ip}) + \epsilon_{i} \\
@@ -529,7 +529,7 @@ y_{i} &amp;= \beta_{0} + \sum^{p}_{j=1} f(x_{ij}) + \epsilon_{i}
 <section id="gam-for-wage-data" class="slide level2">
 <h2>GAM for <code>Wage</code> data</h2>
 <h3 id="regression-using-natural-splines">Regression using natural splines</h3>
-<p><br> <span class="math inline">\(wage = \beta_0 + f_1(year) + f_2(age) + f_3(education)\)</span></p>
+<p><span class="math inline">\(wage = \beta_0 + f_1(year) + f_2(age) + f_3(education)\)</span></p>
 <div style="font-size: 80%;">
 <p><span class="math inline">\(f_1\)</span>: four degrees of freedom, <span class="math inline">\(f_2\)</span>: five degrees of freedom</p>
 <div class="quarto-figure quarto-figure-left">
@@ -543,7 +543,7 @@ y_{i} &amp;= \beta_{0} + \sum^{p}_{j=1} f(x_{ij}) + \epsilon_{i}
 <section id="gam-for-wage-data-1" class="slide level2">
 <h2>GAM for <code>Wage</code> data</h2>
 <h3 id="regression-using-smoothing-splines">Regression using smoothing splines</h3>
-<p><br> <span class="math inline">\(wage = \beta_0 + f_1(year) + f_2(age) + f_3(education)\)</span></p>
+<p><span class="math inline">\(wage = \beta_0 + f_1(year) + f_2(age) + f_3(education)\)</span></p>
 <div style="font-size: 80%;">
 <p><span class="math inline">\(f_1\)</span>: four degrees of freedom, <span class="math inline">\(f_2\)</span>: five degrees of freedom</p>
 <div class="quarto-figure quarto-figure-left">
@@ -597,7 +597,7 @@ y_{i} &amp;= \beta_{0} + \sum^{p}_{j=1} f(x_{ij}) + \epsilon_{i}
 <h2>Generalized additive models with pairwise interactions (<span class="math inline">\(GA^{2}M\)</span>)</h2>
 <h3 id="microsoft-research-implemented-it-and-branded-it-as-ebm">Microsoft Research implemented it and branded it as EBM</h3>
 <p><span class="math display">\[
-g(E[y]) = {\color{#00458b} \sum f_i(x_{i})} + {\color{#6e008b} \sum f_{ij}(x_{ij})}
+g(E[y]) = \beta_0 + {\color{#00458b} \sum f_i(x_{i})} + {\color{#6e008b} \sum f_{ij}(x_{ij})}
 \]</span></p>
 <div class="columns" style="font-size: 80%;">
 <div class="column" style="width:30%;">
@@ -627,7 +627,17 @@ g(E[y]) = {\color{#00458b} \sum f_i(x_{i})} + {\color{#6e008b} \sum f_{ij}(x_{ij
 <section id="intuition-how-ebm-algorithm-works" class="slide level2">
 <h2>Intuition how EBM algorithm works</h2>
 
-<img data-src="./images/ebm-animated.gif" class="r-stretch"><div class="quarto-auto-generated-content">
+<img data-src="./images/ebm-animated.gif" class="r-stretch"></section>
+<section id="intuition-how-ebm-algorithm-works-result" class="slide level2">
+<h2>Intuition how EBM algorithm works (result)</h2>
+
+<img data-src="./images/ebm-splines.jpg" class="r-stretch"></section>
+<section id="where-to-go-from-here" class="slide level2">
+<h2>Where to go from here?</h2>
+<ul>
+<li>Try EBM on a pneumonia dataset from India (<a href="https://data.mendeley.com/datasets/5cs64gdfwp/1">link</a>)</li>
+</ul>
+<div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 <p><a href="https://anthology-of-data.science" class="uri">https://anthology-of-data.science</a></p>
 </div>
