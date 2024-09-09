@@ -178,7 +178,7 @@ Same principle as Lasso and Ridge regression: ${\color{green} loss} + {\color{#f
 
 - Low $\color{#ff4f5e}\lambda$:  low penalty for 'wildly oscillating' function $g(x)$
 - High $\color{#ff4f5e}\lambda$:  high penalty forces $g(x)$ to become smoother (hence the name)
-- Selection of $\lambda$ done with cross validation (usually LOOCV)
+- Selection of $\color{#ff4f5e}\lambda$ done with cross validation (usually LOOCV)
 
 ## Smooting splines
 ### Example: tricep skinfold thickness as a function of age
@@ -193,7 +193,6 @@ Same principle as Lasso and Ridge regression: ${\color{green} loss} + {\color{#f
 $$
 y_{i} = \beta_{0} + \beta_{1} x_{i1} + \beta_{2} x_{i2} + \ldots + \beta_{p} x_{ip} ++ \epsilon_{i}
 $$
-<br>
 
 ### ... to GAMs
 
@@ -207,7 +206,6 @@ y_{i} &= \beta_{0} + \sum^{p}_{j=1} f(x_{ij}) + \epsilon_{i}
 
 ## GAM for `Wage` data
 ### Regression using natural splines
-<br>
 $wage = \beta_0 + f_1(year) + f_2(age) + f_3(education)$
 
 :::{style="font-size: 80%;"}
@@ -218,7 +216,6 @@ $f_1$: four degrees of freedom, $f_2$: five degrees of freedom
 
 ## GAM for `Wage` data
 ### Regression using smoothing splines
-<br>
 $wage = \beta_0 + f_1(year) + f_2(age) + f_3(education)$
 
 :::{style="font-size: 80%;"}
@@ -273,7 +270,7 @@ $\color{orange}\bigtriangledown$ Can be computationally expensive for many featu
 ### Microsoft Research implemented it and branded it as EBM
 
 $$
-g(E[y]) = {\color{#00458b} \sum f_i(x_{i})} + {\color{#6e008b} \sum f_{ij}(x_{ij})}
+g(E[y]) = \beta_0 + {\color{#00458b} \sum f_i(x_{i})} + {\color{#6e008b} \sum f_{ij}(x_{ij})}
 $$
 
 :::: {.columns style="font-size: 80%;"}
@@ -304,3 +301,11 @@ ${\color{#6e008b} \sum f_{ij}(x_{i})}:$<br><br>pairwise interactions
 ## Intuition how EBM algorithm works
 
 ![](./images/ebm-animated.gif)
+
+## Intuition how EBM algorithm works (result)
+
+![](./images/ebm-splines.jpg )
+
+## Where to go from here?
+
+- Try EBM on a pneumonia dataset from India ([link](https://data.mendeley.com/datasets/5cs64gdfwp/1))
