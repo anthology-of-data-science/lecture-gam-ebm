@@ -8,10 +8,10 @@
 <link href="index_files/libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="index_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="index_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.4.549">
+  <meta name="generator" content="quarto-1.4.553">
 
   <meta name="author" content="Dr Daniel Kapitan">
-  <meta name="dcterms.date" content="2024-09-08">
+  <meta name="dcterms.date" content="2024-09-09">
   <title>Generalized Additive Models and Explainable Boosting Machines</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -346,7 +346,7 @@ Dr Daniel Kapitan <a href="https://orcid.org/0000-0001-8979-9194" class="quarto-
     </div>
 </div>
 
-  <p class="date">September 8, 2024</p>
+  <p class="date">September 9, 2024</p>
 </section>
 <section id="attribution-copyright-notice" class="slide level2">
 <h2>Attribution &amp; copyright notice</h2>
@@ -354,11 +354,22 @@ Dr Daniel Kapitan <a href="https://orcid.org/0000-0001-8979-9194" class="quarto-
 <div style="font-size: 80%;">
 <p>This lecture is based on the following open access materials:</p>
 <ul>
-<li>James et al., <a href="https://www.statlearning.com/">Introduction to Statistical Learning, chapter 6</a></li>
+<li>James et al., <a href="https://www.statlearning.com/">Introduction to Statistical Learning with Python (ISLP), chapter 7</a></li>
 <li>Rich Caruana, <a href="https://people.orie.cornell.edu/mru8/orie4741/lectures/Tutorial4MadeleineUdellClass_2020Dec08_RichCaruana_IntelligibleMLInterpretML_EBMs_75mins.pdf">InterpretML: Explainable Boosting Machines (EBMs)</a></li>
 </ul>
 <p>Source code: <a href="https://github.com/anthology-of-data-science/lecture-gam-ebm">https://github.com/anthology-of-data-science/lecture-gam-ebm</a> <br></p>
 <p xmlns:cc="http://creativecommons.org/ns#">Daniel Kapitan, <em>Generalized Additive Models and Explainable Boosting Machines.</em><br>This work is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt=""></a></p>
+</div>
+</section>
+<section id="why-this-lecture" class="slide level2">
+<h2>Why this lecture?</h2>
+<div style="font-size: 60%;">
+<div class="quarto-figure quarto-figure-left">
+<figure>
+<p><img data-src="images/xkcd-interpretability-flexibility.png"></p>
+<figcaption>Source: Adaptation of ISLP, figure 2.7</figcaption>
+</figure>
+</div>
 </div>
 </section>
 <section id="learning-objectives-moving-beyond-linearity" class="slide level2">
@@ -434,19 +445,189 @@ p(x)&amp; = \frac{e^{y_{i}}}{1 + e^{y_{i}}}\\
 <section id="polynomial-regression" class="slide level2">
 <h2>Polynomial regression</h2>
 <p><br></p>
+<h3 id="generalization-of-linear-regression">Generalization of linear regression</h3>
 <ul>
-<li>Generalization of linear regression, use ordinary least squares for estimating coefficients</li>
+<li>Use ordinary least squares for estimating coefficients</li>
 <li>Unusual for d &gt; 3 or 4, because curve becomes too flexible</li>
 <li>Classification usually uses logit or log-odds formula</li>
 </ul>
 <p><br></p>
+<h3 id="concept-of-basis-functions">Concept of basis functions</h3>
 <ul>
-<li>Polynomials are an example of using basis functions
-<ul>
+<li>Polynomials are an example of basis functions</li>
 <li>Fourier basis is other commonly used basis function (sin, cos) for periodic functions</li>
-</ul></li>
 </ul>
-<div class="quarto-auto-generated-content">
+</section>
+<section id="example-wage-data" class="slide level2">
+<h2>Example: <code>Wage</code> data</h2>
+<div style="font-size: 60%;">
+<div class="quarto-figure quarto-figure-left">
+<figure>
+<p><img data-src="images/islp-7_1.png"></p>
+<figcaption>Source: ISLP, figure 7.1</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section id="regression-splines" class="slide level2">
+<h2>Regression splines</h2>
+<h3 id="not-as-many-extra-degrees-of-freedom-as-you-may-think">Not as many extra degrees of freedom as you may think</h3>
+<div class="columns">
+<div class="column" style="font-size: 60%;">
+<div class="quarto-figure quarto-figure-left">
+<figure>
+<p><img data-src="images/islp-7_3.png"></p>
+<figcaption>Source: ISLP, figure 7.3</figcaption>
+</figure>
+</div>
+</div><div class="column" style="font-size: 80%;">
+<p><strong>Piecewise cubic</strong>: 2 x 4 coefficients <br> –&gt; 8 degrees of freedom (DoF)</p>
+<p><br></p>
+<p><strong>Continuous cubic (no gaps)</strong>: one extra constraint –&gt; 7 DoF</p>
+<p><br></p>
+<p><strong>Cubic spline</strong>: require 1st and 2nd derivative to be continuous –&gt; two extra constraints –&gt; 5 DoF</p>
+</div>
+</div>
+</section>
+<section id="smoothing-splines" class="slide level2">
+<h2>Smoothing splines</h2>
+<h3 id="determine-set-of-knots-with-regularization">Determine set of knots with regularization</h3>
+<p><br></p>
+<p><span class="math display">\[
+{\color{green}\sum^{n}_{i=1} {\left(y_{i} - g(x_{i}) \right)}^{2}} + {\color{#ff4f5e} \lambda \int g''(t)^{2}dt}
+\]</span></p>
+<p><br></p>
+<p>Same principle as Lasso and Ridge regression: <span class="math inline">\({\color{green} loss} + {\color{#ff4f5e} penalty}\)</span></p>
+<ul>
+<li>Low <span class="math inline">\(\color{#ff4f5e}\lambda\)</span>: low penalty for ‘wildly oscillating’ function <span class="math inline">\(g(x)\)</span></li>
+<li>High <span class="math inline">\(\color{#ff4f5e}\lambda\)</span>: high penalty forces <span class="math inline">\(g(x)\)</span> to become smoother (hence the name)</li>
+<li>Selection of <span class="math inline">\(\lambda\)</span> done with cross validation (usually LOOCV)</li>
+</ul>
+</section>
+<section id="smooting-splines" class="slide level2">
+<h2>Smooting splines</h2>
+<h3 id="example-tricep-skinfold-thickness-as-a-function-of-age">Example: tricep skinfold thickness as a function of age</h3>
+
+<img data-src="./images/ssplines.gif" class="r-stretch quarto-figure-left"><p class="caption">Source: <a href="https://bookdown.org/tpinto_home/Beyond-Linearity/smoothing-splines.html">Biostatistics Collaboration of Australia</a>.</p></section>
+<section id="generalized-additve-models-with-multiple-features" class="slide level2">
+<h2>Generalized additve models with multiple features</h2>
+<p><br></p>
+<h3 id="from-multiple-linear-regression">From multiple linear regression:</h3>
+<p><span class="math display">\[
+y_{i} = \beta_{0} + \beta_{1} x_{i1} + \beta_{2} x_{i2} + \ldots + \beta_{p} x_{ip} ++ \epsilon_{i}
+\]</span> <br></p>
+<h3 id="to-gams">… to GAMs</h3>
+<p><span class="math display">\[\begin{align}
+y_{i} &amp;= \beta_{0} + f_{1}(x_{i1}) + f_{2}(x_{i2}) + \ldots + f_{p}(x_{ip}) + \epsilon_{i} \\
+y_{i} &amp;= \beta_{0} + \sum^{p}_{j=1} f(x_{ij}) + \epsilon_{i}
+\end{align}\]</span></p>
+<ul>
+<li><strong>Generalized</strong>: for each function <span class="math inline">\(f_j\)</span> you can choose which (non-)linear basis function you want to use</li>
+<li><strong>Additive</strong>: we assume we can add contributions of each separate <span class="math inline">\(f_j\)</span></li>
+</ul>
+</section>
+<section id="gam-for-wage-data" class="slide level2">
+<h2>GAM for <code>Wage</code> data</h2>
+<h3 id="regression-using-natural-splines">Regression using natural splines</h3>
+<p><br> <span class="math inline">\(wage = \beta_0 + f_1(year) + f_2(age) + f_3(education)\)</span></p>
+<div style="font-size: 80%;">
+<p><span class="math inline">\(f_1\)</span>: four degrees of freedom, <span class="math inline">\(f_2\)</span>: five degrees of freedom</p>
+<div class="quarto-figure quarto-figure-left">
+<figure>
+<p><img data-src="./images/islp-7_11.png"></p>
+<figcaption>Source: ISLP, figure 7.11.</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section id="gam-for-wage-data-1" class="slide level2">
+<h2>GAM for <code>Wage</code> data</h2>
+<h3 id="regression-using-smoothing-splines">Regression using smoothing splines</h3>
+<p><br> <span class="math inline">\(wage = \beta_0 + f_1(year) + f_2(age) + f_3(education)\)</span></p>
+<div style="font-size: 80%;">
+<p><span class="math inline">\(f_1\)</span>: four degrees of freedom, <span class="math inline">\(f_2\)</span>: five degrees of freedom</p>
+<div class="quarto-figure quarto-figure-left">
+<figure>
+<p><img data-src="./images/islp-7_12.png"></p>
+<figcaption>Source: ISLP, figure 7.12.</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section id="gam-for-wage-data-2" class="slide level2">
+<h2>GAM for <code>Wage</code> data</h2>
+<h3 id="logistic-regression-probability-to-earn-more-250-thousand-dollars-per-year">Logistic regression probability to earn more 250 thousand dollars per year</h3>
+<p><span class="math inline">\(\log\left({\frac{p(x)}{1 - p(x)}}\right) = \beta_0 + beta_1 \times year + f_2(age) + f_3(education)\)</span></p>
+<div style="font-size: 80%;">
+<p><span class="math inline">\(f_2\)</span>: five degrees of freedom</p>
+<div class="quarto-figure quarto-figure-left">
+<figure>
+<p><img data-src="./images/islp-7_13.png"></p>
+<figcaption>Source: ISLP, figure 7.12.</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section id="pros-and-cons-of-gams" class="slide level2">
+<h2>Pros and Cons of GAMS</h2>
+<div class="columns" style="font-size: 80%;">
+<div class="column" style="width:45%;">
+<p><span class="math inline">\(\color{green}\bigtriangleup\)</span> You can fit a non-linear <span class="math inline">\(f_j\)</span> to each <span class="math inline">\(X_j\)</span>, so we can automatically model such relationships (no need for manual transformation)</p>
+<p><span class="math inline">\(\color{green}\bigtriangleup\)</span> Using non-linear functions potentially results in more accurate predictions</p>
+<p><span class="math inline">\(\color{green}\bigtriangleup\)</span> Because model is additive, you can examine effect of each feature <span class="math inline">\(X_j\)</span> on response <span class="math inline">\(Y\)</span> individually</p>
+<p><span class="math inline">\(\color{green}\bigtriangleup\)</span> Smoothness of functions can be summarized via degrees of freedom</p>
+</div><div class="column" style="width:10%;">
+
+</div><div class="column" style="width:45%;">
+<p><span class="math inline">\(\color{orange}\bigtriangledown\)</span> Additive model may be too restrictive, doesn’t include interactions</p>
+<p><span class="math inline">\(\color{orange}\bigtriangledown\)</span> Can be computationally expensive for many features</p>
+</div>
+</div>
+</section></section>
+<section>
+<section id="explainable-boosting-machines-1" class="title-slide slide level1 center">
+<h1>Explainable Boosting Machines</h1>
+
+</section>
+<section id="remember-how-gradient-boosting-works" class="slide level2">
+<h2>Remember how gradient boosting works?</h2>
+
+<img data-src="./images/working-of-gradient-boosting-algorithm.png" class="r-stretch quarto-figure-left"><p class="caption">Source: <a href="https://pythongeeks.org/gradient-boosting-algorithm-in-machine-learning/">Python Geeks</a></p></section>
+<section id="generalized-additive-models-with-pairwise-interactions-ga2m" class="slide level2">
+<h2>Generalized additive models with pairwise interactions (<span class="math inline">\(GA^{2}M\)</span>)</h2>
+<h3 id="microsoft-research-implemented-it-and-branded-it-as-ebm">Microsoft Research implemented it and branded it as EBM</h3>
+<p><span class="math display">\[
+g(E[y]) = {\color{#00458b} \sum f_i(x_{i})} + {\color{#6e008b} \sum f_{ij}(x_{ij})}
+\]</span></p>
+<div class="columns" style="font-size: 80%;">
+<div class="column" style="width:30%;">
+<p><span class="math inline">\(g(E[y]):\)</span><br><br>link function, identity for regression, logit for logistic regression</p>
+</div><div class="column" style="width:5%;">
+
+</div><div class="column" style="width:30%;">
+<p><span class="math inline">\({\color{#00458b} \sum f_i(x_{i})}:\)</span><br><br> GAM, but now using shallow trees as basis function</p>
+</div><div class="column" style="width:5%;">
+
+</div><div class="column" style="width:30%;">
+<p><span class="math inline">\({\color{#6e008b} \sum f_{ij}(x_{i})}:\)</span><br><br>pairwise interactions</p>
+</div>
+</div>
+<div style="font-size: 80%;">
+<ul>
+<li>Combines different ideas into single model (<a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2017/06/kdd13.pdf">Lou et al.&nbsp;(2019)</a>)
+<ul>
+<li>Fast detection of pairwise interactions</li>
+<li>Uses gradient boosted trees, training one feature at a time</li>
+<li>Cycles features with each iteration to mitigate effect of co-linearity</li>
+</ul></li>
+<li>Implemented in <a href="https://github.com/interpretml/interpret/">InterpretML</a></li>
+</ul>
+</div>
+</section>
+<section id="intuition-how-ebm-algorithm-works" class="slide level2">
+<h2>Intuition how EBM algorithm works</h2>
+
+<img data-src="./images/ebm-animated.gif" class="r-stretch"><div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 <p><a href="https://anthology-of-data.science" class="uri">https://anthology-of-data.science</a></p>
 </div>
@@ -740,6 +921,24 @@ p(x)&amp; = \frac{e^{y_{i}}}{1 + e^{y_{i}}}\\
         // clear code selection
         e.clearSelection();
       });
+        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+        var mailtoRegex = new RegExp(/^mailto:/);
+          var filterRegex = new RegExp('/' + window.location.host + '/');
+        var isInternal = (href) => {
+            return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+        }
+        // Inspect non-navigation links and adorn them if external
+     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+        for (var i=0; i<links.length; i++) {
+          const link = links[i];
+          if (!isInternal(link.href)) {
+            // undo the damage that might have been done by quarto-nav.js in the case of
+            // links that we want to consider external
+            if (link.dataset.originalHref !== undefined) {
+              link.href = link.dataset.originalHref;
+            }
+          }
+        }
       function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
         const config = {
           allowHTML: true,
@@ -776,7 +975,11 @@ p(x)&amp; = \frac{e^{y_{i}}}{1 + e^{y_{i}}}\\
           try { href = new URL(href).hash; } catch {}
           const id = href.replace(/^#\/?/, "");
           const note = window.document.getElementById(id);
-          return note.innerHTML;
+          if (note) {
+            return note.innerHTML;
+          } else {
+            return "";
+          }
         });
       }
       const findCites = (el) => {
