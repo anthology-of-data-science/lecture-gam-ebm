@@ -1,5 +1,5 @@
 ---
-title: Generalized Additive Models and Explainable Boosting Machines
+title: From Generalized Additive Models To Explainable Boosting Machines
 subtitle: Your standard algorithm for tabular data?
 format: clean-revealjs
 
@@ -185,7 +185,7 @@ Same principle as Lasso and Ridge regression: ${\color{green} loss} + {\color{#f
 
 ![Source: [Biostatistics Collaboration of Australia](https://bookdown.org/tpinto_home/Beyond-Linearity/smoothing-splines.html).](./images/ssplines.gif)
 
-## Generalized additve models with multiple features
+## Generalized additive models with multiple features
 <br>
 
 ### From multiple linear regression:
@@ -226,9 +226,9 @@ $f_1$: four degrees of freedom, $f_2$: five degrees of freedom
 
 
 ## GAM for `Wage` data
-### Logistic regression probability to earn more 250 thousand dollars per year
+### Probability of earning more than 250 thousand dollars per year
 
-$\log\left({\frac{p(x)}{1 - p(x)}}\right) = \beta_0 + beta_1 \times year + f_2(age) + f_3(education)$
+$\log\left({{p(x)}/{1 - p(x)}}\right) = \beta_0 + beta_1 \times year + f_2(age) + f_3(education)$
 
 :::{style="font-size: 80%;"}
 $f_2$: five degrees of freedom
@@ -298,14 +298,76 @@ ${\color{#6e008b} \sum f_{ij}(x_{i})}:$<br><br>pairwise interactions
 - Implemented in [InterpretML](https://github.com/interpretml/interpret/)
 ::::
 
+
 ## Intuition how EBM algorithm works
 
-![](./images/ebm-animated.gif)
+{{< video ./images/ebm.m4v >}}
 
-## Intuition how EBM algorithm works (result)
+## Intuition how EBM algorithm works (intermediate result)
 
 ![](./images/ebm-splines.jpg )
 
-## Where to go from here?
+## Fast detection of pairwise interactions
+### [Lou et al. (2013)](./resources/lou2013accurate.pdf)
+![Searching cuts on input space of $x_i$ and $x_j$. On the left we show a heat map on the target for different values of $x_i$ and $x_j$. $c_i$ and $c_j$ are cuts for $x_i$ and $x_j$, respectively. On the right we show an extremely simple predictor of modeling pairwise interaction.](./images/fast-interaction-detection.png)
 
-- Try EBM on a pneumonia dataset from India ([link](https://data.mendeley.com/datasets/5cs64gdfwp/1))
+## Intuition how EBM algorithm works (final result)
+
+![](./images/ebm-with-pairs.png)
+
+## Performance of EBM on toy datasets
+### [Chang et al. (2020)](./resources/chang2020how.pdf)
+
+![Test set AUCs (%) across ten datasets average over five runs. Best number in each row is in bold.](./images/ebm-performance.png)
+
+
+# Example: predicting pneumonia mortality risk
+## The Pneumonia Data with 46 features
+### [Cooper et al. (1997)](./resources/cooper1997evaluation.pdf)
+
+![The dataset contains 14,199 cases of pneumonia collected from 78 hospitals between July 1987 and December 1988.](./images/pneumonia-dataset.png)
+
+## Using EBMs to detect common flaws in data
+### [Chen et al. (2021)](./resources/chang2020how.pdf)
+<br>
+
+1. EBM shape function graphs can be helpful in identifying various types of dataset flaws.
+2. In many cases, users with domain expertise are needed to examine what the model has learned.
+3. In some cases, EBMs provide simple tools for correcting problems in the models, when correcting the data is not feasible or too difficult.
+
+## Missing values assumed normal
+### [Chen et al. (2021)](./resources/chang2020how.pdf)
+<br>
+
+![EBM shape function of “heart rate” for predicting pneumonia mortality risk. Left: missing values result in unrealistic high risk score. Right: corrected risk score.](./images/pneumonia-heart-rate.png)
+
+## Correction for confounders and treatment effects
+### [Chen et al. (2021)](./resources/chang2020how.pdf)
+<br>
+
+![Left: confounder of retirement at age 67, resulting in sharp increase of risk. Social effect of doctors trying harder to cure centenarians results in lower risk. Right: patients who have a history of asthma have lower pneumonia mortality risk than general population, since they admitted directly into ICU and get more aggressive care, thereby lowering their risk of death.](./images/pneumonia-age-asthma.png)
+
+## Discovering new protocols?
+### [Chen et al. (2021)](./resources/chang2020how.pdf)
+<br>
+
+![Left: patients get treated when blood urea nitrogent reaches ~50. When BUN goes over 100, dialysis is given. Right: patients in ICU get treated at systolic blood pressures (SBP) of 175, 200 and 255.](./images/pneumonia-treatment-effects.png)
+
+## Discovering new protocols?
+### [Chen et al. (2021)](./resources/chang2020how.pdf)
+<br>
+
+![Left: possible improvement by moving dialysis treatment to 80. Rightpatients get treated when blood urea nitrogent reaches ~50. When BUN goes over 100, dialysis is given. Right: adjust "inappropriate" treatment thresholds with flattend red lines.](./images/pneumonia-upper-bounds.png)
+
+## Where to go from here?
+### Try it yourself
+<br>
+
+- Work through one of the examples on [InterpreML](https://interpret.ml/docs/python/examples/interpretable-classification.html)
+- Try to reproduce the results from [Chang et al. (2020)](./resources/chang2020how.pdf) with the
+  - [Adult census income dataset](https://archive.ics.uci.edu/dataset/2/adult)
+  - [COMPAS Recividism dataset](https://www.kaggle.com/datasets/danofer/compass)
+- Read the paper by [Nori et al. (2021)](./resources/nori21accuracy.pdf) how EBMs can be combined with differential privacy (DP) to achieve state-of-the-art accuracy whilst preserving privacy
+  
+
+## Thanks for your attention. {background-image="images/speakerscorner.jpg" background-size="contain" background-repeat="no-repeat"}
