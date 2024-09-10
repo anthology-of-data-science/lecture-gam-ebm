@@ -315,7 +315,7 @@ ${\color{#6e008b} \sum f_{ij}(x_{i})}:$<br><br>pairwise interactions
 
 ![](./images/ebm-with-pairs.png)
 
-## Performance of EBM on toy datasets
+## Performance of EBM on some datasets
 ### [Chang et al. (2020)](./resources/chang2020how.pdf)
 
 ![Test set AUCs (%) across ten datasets average over five runs. Best number in each row is in bold.](./images/ebm-performance.png)
