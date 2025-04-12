@@ -26,11 +26,11 @@ Note: This theme uses the Roboto font family, which it imports from Google
   preserving consistent font weights, you may also wish to remove "Roboto"
   from the choice set if the family is installed locally.
 */
-@import url('https://fonts.googleapis.com/css?family=Inter:200,200i,300,300i,350,350i,400,400i&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Nunito+Sans:200,200i,300,300i,350,350i,400,400i&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Zilla+Slab:200,200i,300,300i,350,350i,400,400i&display=swap');
 
 
-$font-family-sans-serif: "Inter", sans-serif !default;
+$font-family-sans-serif: "Nunito Sans", sans-serif !default;
 $presentation-heading-font: "Zilla Slab", sans-serif !default;
 
 $presentation-heading-color: $jet !default;
